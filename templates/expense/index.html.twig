@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create expense{% endblock %}
+
+{% block body %}
+<form method="post">
+    <br>
+    <h1 class="h3 mb-3 font-weight-normal">Create a new expense</h1>
+    <label for="inputName">Name</label>
+    <input type="text" name="name" id="inputName" class="form-control" autocomplete="name" required autofocus>
+    
+    <label for="inputAmount">Amount</label>
+    <input type="number" name="amount" id="inputAmount" class="form-control" autocomplete="amount" required>
+
+    <label for="expense_date">Choose a date for this expense:</label>
+    <input type="datetime-local" id="expense_date"  name="expense_date">
+
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <br><br><button class="btn btn-lg btn-primary" type="submit">Add expense</button>
+</form>
+{% endblock %}
