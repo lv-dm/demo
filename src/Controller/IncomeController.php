@@ -27,7 +27,6 @@ class IncomeController extends AbstractController
         ]);
     }
 
-
     #[Route('/addincome', name: 'app_income')]
     public function createIncome(Environment $twig, Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {

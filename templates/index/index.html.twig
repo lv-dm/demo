@@ -26,16 +26,15 @@
 
     {{ loopOutput }}
 
-
-    <div class="alert alert-success" role="alert">
-        Total income: <b>{{ isum }}</b>
-    </div>
-
-    <div class="alert alert-success" role="alert">
-        Total expenses: <b>{{ sum }}</b>
+    <div class="alert alert-info" role="alert">
+        Total income: <b>{{ isum }}</b></span>
     </div>
 
     <div class="alert alert-info" role="alert">
+        Total expenses: <b>{{ sum }}</b>
+    </div>
+
+    <div class="alert alert-success" role="alert">
         Balance: <b>{{ isum-sum }}</b>
     </div>
 
