@@ -15,9 +15,9 @@
     <label for="expense_date">Choose a date for this expense:</label>
     <input type="datetime-local" id="expense_date"  name="expense_date">
 
-
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <br><br><button class="btn btn-lg btn-primary" type="submit">Add expense</button>
+    <br><br>
+    <button class="btn btn-lg btn-primary" type="submit">Add expense</button>
 </form>
 {% endblock %}
