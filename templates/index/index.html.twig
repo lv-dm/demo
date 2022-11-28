@@ -26,16 +26,74 @@
 
     {{ loopOutput }}
 
-    <div class="alert alert-info" role="alert">
-        Total income: <b>{{ isum }}</b></span>
+    <style>
+    dl {
+        width: 50%;
+        overflow: hidden;
+        padding: 0;
+        margin: 0
+    }
+    dt {
+        float: left;
+        width: 50%;
+        padding: 0;
+        margin: 0
+    }
+    dd {
+        float: left;
+        width: 50%;
+        padding: 0;
+        margin: 0
+    }
+    </style>
+
+    <div class="alert alert-success shadow-sm" role="alert">
+        <i class="fa-solid fa-money-bill"></i> Приходи: <b>{{ isum }}</b>
+
     </div>
 
-    <div class="alert alert-info" role="alert">
-        Total expenses: <b>{{ sum }}</b>
+    <div class="alert alert-danger shadow-sm" role="alert">
+        <i class="fa-solid fa-money-bill"></i> Разходи: <b>{{ sum }}</b>
     </div>
 
-    <div class="alert alert-success" role="alert">
-        Balance: <b>{{ isum-sum }}</b>
+    <div class="alert alert-info shadow-sm" role="alert">
+        <i class="fa-solid fa-money-bill"></i> Balance: <b>{{ isum-sum }}</b>
     </div>
+
+    <div class="card">
+        <div class="card-header"><i class="fa-solid fa-info-circle fa-sm"></i>
+            Информация
+        </div>
+        <div class="card-body shadow p-3">
+            <div class="row">
+                <div class="col-lg-8">
+                    <dl class="dl-horizontal text-left">
+                        <dt>Общо приходи</dt>
+                        <dd>{{ isum }}лв.</dd>
+                        <dt>Общо разходи</dt>
+                        <dd>{{ sum }}лв.</dd>
+                        <dt>Баланс</dt>
+                        <dd>{{ isum-sum }}лв.</dd>
+                    </dl>
+                </div>
+                <div class="col-lg-4">
+                    <div id="chart" style="overflow: hidden; position: relative; right: 300px;"></div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        new Morris.Donut({
+            element: 'chart',
+            
+            data: [
+                
+                { label: 'Разходи', value: {{ sum }} },
+                { label: 'Приходи', value: {{ isum }} }
+            ]
+        });
+    </script>
 
 {% endblock %}
