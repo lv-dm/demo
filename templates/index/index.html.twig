@@ -8,4 +8,35 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
+    {% set sum = 0 %}    
+    {% set loopOutput %}               
+        {% for expense in expenses %}            
+        {% set sum = sum + expense.amount %}        
+        {% endfor %}    
+    {% endset %}
+
+    {{ loopOutput }}
+
+    {% set isum = 0 %}    
+    {% set loopOutput %}               
+        {% for income in incomes %}            
+        {% set isum = isum + income.amount %}        
+        {% endfor %}    
+    {% endset %}
+
+    {{ loopOutput }}
+
+
+    <div class="alert alert-success" role="alert">
+        Total income: <b>{{ isum }}</b>
+    </div>
+
+    <div class="alert alert-success" role="alert">
+        Total expenses: <b>{{ sum }}</b>
+    </div>
+
+    <div class="alert alert-info" role="alert">
+        Balance: <b>{{ isum-sum }}</b>
+    </div>
+
 {% endblock %}
