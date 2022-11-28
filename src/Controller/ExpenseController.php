@@ -20,76 +20,19 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class ExpenseController extends AbstractController
 {
-    /*
-    #[Route('/expense', name: 'app_expense')]
-    public function createExpense(ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    #[Route('/expense/{id}', name: 'expense_show')]
+    public function show(ManagerRegistry $doctrine, int $id): Response
     {
-        $entityManager = $doctrine->getManager();
+        $expense = $doctrine->getRepository(Expense::class)->find($id);
 
-        $expense = new Expense();
-        $expense->setName('Keyboard');
-        $expense->setAmount(250);
-
-        $date = date_create();
-        $expense->setExpenseDate($date);
-
-        $errors = $validator->validate($expense);
-        if (count($errors) > 0) {
-            return new Response((string) $errors, 400);
+        if (!$expense) {
+            throw $this->createNotFoundException(
+                'No expense found for id '.$id
+            );
         }
 
-        // tell Doctrine you want to (eventually) save the Expense (no queries yet)
-        $entityManager->persist($expense);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new expense with id '.$expense->getId());
+        return new Response('expense name: '.$expense->getName());
     }
-    */
-    /*
-    #[Route('/expense', name: 'app_expense')]
-    public function createExpense(Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
-    {
-        $entityManager = $doctrine->getManager();
-        $form = $this->createFormBuilder()
-                ->add('name', TextType::class)
-                ->add('amount', NumberType::class)
-                ->add('expense_date', DateTimeType::class, [
-                    'attr' => [
-                        'class' => 'btn btn-success float-right'
-                    ]
-                ])
-                ->add('submit', SubmitType::class, [
-                    'attr' => [
-                        'class' => 'btn btn-success float-right'
-                    ]
-                ])
-                ->getForm();
-
-            $form->handleRequest($request);
-            if($form->isSubmitted()) {
-                $data = $form->getData();
-
-                $expense = new Expense();
-                $expense->setName($data['name']);
-                $expense->setAmount($data['amount']);
-                $expense->setExpenseDate($data['expense_date']);
-
-                $errors = $validator->validate($expense);
-                if (count($errors) > 0) {
-                    return new Response((string) $errors, 400);
-                }
-                
-                $entityManager->persist($expense);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('expense_show', ['id' => $expense->getId()]);
-                
-            }
-        return $this->render('expense/index.html.twig', ['form' => $form->CreateView(), 'controller_name' => 'ExpenseController']);
-    }
-    */
 
     #[Route('/expense/new', name: 'app_expense')]
     public function createExpense(Environment $twig, Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
@@ -114,70 +57,29 @@ class ExpenseController extends AbstractController
         ]));
 
     }
-
-    #[Route('/expense/{id}', name: 'expense_show')]
-    public function show(ManagerRegistry $doctrine, int $id): Response
-    {
-        $expense = $doctrine->getRepository(Expense::class)->find($id);
-
-        if (!$expense) {
-            throw $this->createNotFoundException(
-                'No expense found for id '.$id
-            );
-        }
-
-        return new Response('expense name: '.$expense->getName());
-    }
     
     #[Route('/expense/edit/{id}', name: 'expense_edit')]
-    public function update(Environment $twig, Request $request, ManagerRegistry $doctrine, int $id): Response
+    public function edit(Environment $twig, Request $request, ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
         $expense = $entityManager->getRepository(Expense::class)->find($id);
 
-        if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id '.$id
-            );
-        }
-
-        $form = $this->createForm(ExpenseFormType::class, $expense, array('method' => 'PUT'));
+        $form = $this->createForm(ExpenseFormType::class, $expense);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->$entityManager->flush();
-        }
+            $entityManager->flush();
 
+            return new Response('Expense number ' . $expense->getId() . ' updated!');
+        }
         return new Response($twig->render('expense/show.html.twig', [
             'expense_form' => $form->createView() 
          ]));
     }
 
-    /*
-    #[Route('/expense/edit/{id}', name: 'expense_edit')]
-    public function update(ManagerRegistry $doctrine, int $id): Response
-    {
-        $entityManager = $doctrine->getManager();
-        $expense = $entityManager->getRepository(Expense::class)->find($id);
-
-        if (!$expense) {
-            throw $this->createNotFoundException(
-                'No expense found for id '.$id
-            );
-        }
-
-        $expense->setName('New expense name!');
-        $entityManager->flush();
-
-        return $this->redirectToRoute('expense_show', [
-            'id' => $expense->getId()
-        ]);
-    }
-    */
-
-    #[Route('/expense/delete/{id}', name: 'expense_edit')]
+    #[Route('/expense/delete/{id}', name: 'expense_delete')]
     public function remove(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
