@@ -96,4 +96,14 @@ class ExpenseController extends AbstractController
 
         return new Response('Removed expense with id '.$id);
     }
+
+    #[Route('/expenses')]
+    public function listAction(ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine->getManager();
+        $expenses = $entityManager->getRepository(Expense::class)->findAll();
+        return $this->render('expense/index.html.twig', [
+            'expenses' => $expenses
+        ]);
+    }
 }

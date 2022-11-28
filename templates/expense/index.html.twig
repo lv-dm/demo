@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create expense{% endblock %}
+{% block title %}Add expense{% endblock %}
 
 {% block body %}
-<form method="post">
-    <br>
-    <h1 class="h3 mb-3 font-weight-normal">Create a new expense</h1>
-    <label for="inputName">Name</label>
-    <input type="text" name="name" id="inputName" class="form-control" autocomplete="name" required autofocus>
-    
-    <label for="inputAmount">Amount</label>
-    <input type="number" name="amount" id="inputAmount" class="form-control" autocomplete="amount" required>
+    <h2>List of expenses:</h2>
 
-    <label for="expense_date">Choose a date for this expense:</label>
-    <input type="datetime-local" id="expense_date"  name="expense_date">
-
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <br><br>
-    <button class="btn btn-lg btn-primary" type="submit">Add expense</button>
-</form>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.name }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.expensedate|date('Y-m-d H:i') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
