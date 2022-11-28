@@ -4,8 +4,16 @@
 
 {% block body %}
 
+    {% for message in app.flashes('notice') %}
+        <div class="flash-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h2>Expense:</h2>
 
     {{ form(expense_form) }}
+
+    <br><a class="btn btn-outline-secondary" href="/expenses">Go back</a><br><br>
 
 {% endblock %}

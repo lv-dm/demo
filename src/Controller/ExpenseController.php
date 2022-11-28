@@ -34,7 +34,7 @@ class ExpenseController extends AbstractController
         return new Response('expense name: '.$expense->getName());
     }
 
-    #[Route('/expense/new', name: 'app_expense')]
+    #[Route('/addexpense', name: 'app_expense')]
     public function createExpense(Environment $twig, Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
     {
         $entityManager = $doctrine->getManager();
@@ -72,7 +72,10 @@ class ExpenseController extends AbstractController
 
             $entityManager->flush();
 
-            return new Response('Expense number ' . $expense->getId() . ' updated!');
+            $this->addFlash(
+                'notice',
+                'Your changes were saved!'
+            );
         }
         return new Response($twig->render('expense/show.html.twig', [
             'expense_form' => $form->createView() 
@@ -80,7 +83,7 @@ class ExpenseController extends AbstractController
     }
 
     #[Route('/expense/delete/{id}', name: 'expense_delete')]
-    public function remove(ManagerRegistry $doctrine, int $id): Response
+    public function remove(Environment $twig, ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
         $expense = $entityManager->getRepository(Expense::class)->find($id);
@@ -94,7 +97,10 @@ class ExpenseController extends AbstractController
         $entityManager->remove($expense);
         $entityManager->flush();
 
-        return new Response('Removed expense with id '.$id);
+        $expenses = $entityManager->getRepository(Expense::class)->findAll();
+        return $this->render('expense/index.html.twig', [
+            'expenses' => $expenses
+        ]);
     }
 
     #[Route('/expenses')]

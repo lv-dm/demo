@@ -20,7 +20,7 @@ class ExpenseFormType extends AbstractType
             ->add('Amount', NumberType::class)
             ->add('ExpenseDate', DateTimeType::class, [
                 'attr' => [
-                    'class' => 'btn btn-default'
+                    'class' => 'row g-3 col-3'
                 ]
             ])
 

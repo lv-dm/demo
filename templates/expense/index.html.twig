@@ -3,22 +3,43 @@
 {% block title %}Add expense{% endblock %}
 
 {% block body %}
+    <br><a class="btn btn-outline-success" href="/addexpense">Add new expense</a><br><br>
+
+    {# do loop first and assign whatever output you want to a variable #}
+    {% set sum = 0 %}    
+    {% set loopOutput %}               
+        {% for expense in expenses %}            
+        {% set sum = sum + expense.amount %}        
+        {% endfor %}    
+    {% endset %}
+
+    <div class="alert alert-success" role="alert">
+        Total expenses: <b>{{ sum }}</b>
+    </div>
+
+    {{ loopOutput }}
+
     <h2>List of expenses:</h2>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
+            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Amount</th>
             <th scope="col">Date</th>
+            <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for expense in expenses %}
                 <tr>
+                    <td>{{ expense.id }}</td>
                     <td>{{ expense.name }}</td>
                     <td>{{ expense.amount }}</td>
                     <td>{{ expense.expensedate|date('Y-m-d H:i') }}</td>
+                    <td><a href="/expense/edit/{{ expense.id }}" class="btn btn-outline-warning">Edit</a>
+                    <a href="/expense/delete/{{ expense.id }}" class="btn btn-outline-danger">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>
