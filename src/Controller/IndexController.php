@@ -18,4 +18,16 @@ class IndexController extends AbstractController
             'controller_name' => 'IndexController',
         ]);
     }
+
+    #[Route('/', name: 'app_index')]
+    public function listAction(ManagerRegistry $doctrine)
+    {
+        $entityManager = $doctrine->getManager();
+        $expenses = $entityManager->getRepository(Expense::class)->findAll();
+        $incomes = $entityManager->getRepository(Income::class)->findAll();
+        return $this->render('index/index.html.twig', [
+            'expenses' => $expenses,
+            'incomes' => $incomes
+        ]);
+    }
 }
