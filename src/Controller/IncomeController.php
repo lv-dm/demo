@@ -42,7 +42,10 @@ class IncomeController extends AbstractController
             $entityManager->persist($income);
             $entityManager->flush();
 
-            return new Response('Income number ' . $income->getId() . ' created!');
+            $this->addFlash(
+                'notice',
+                'Income added!'
+            );
         }
 
         return new Response($twig->render('income/show.html.twig', [

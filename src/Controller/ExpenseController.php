@@ -49,7 +49,10 @@ class ExpenseController extends AbstractController
             $entityManager->persist($expense);
             $entityManager->flush();
 
-            return new Response('Expense number ' . $expense->getId() . ' created!');
+            $this->addFlash(
+                'notice',
+                'Expense added!'
+            );
         }
 
         return new Response($twig->render('expense/show.html.twig', [
