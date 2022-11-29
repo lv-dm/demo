@@ -17,6 +17,23 @@
         <a href="/expenses" class="nav-link">Разходи</a>
       </li>
     </ul>
+
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+      {% if app.user %}
+        <span class="nav-link">
+          Logged in as: <b>{{ app.user.userIdentifier }}</b>
+        </span>
+      {% endif %}
+      </li>
+      <li class="nav-item">
+        {% if app.user %}
+              <a href="{{ path('app_logout') }}" class="btn btn-success">Logout</a>
+          {% else %}
+              <a href="{{ path('app_login') }}" class="btn btn-dark">Login</a>
+        {% endif %}
+      </li>
+    </ul>
   </div>
 </div>
 </nav>

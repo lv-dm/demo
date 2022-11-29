@@ -19,6 +19,11 @@ class ExpenseFormType extends AbstractType
             ->add('Name', TextType::class)
             ->add('Amount', NumberType::class)
             ->add('ExpenseDate', DateTimeType::class, [
+                'input'  => 'datetime', 
+                'widget' => 'single_text',
+                'input_format' => 'yyyy-MM-dd H:i:s'
+            ],
+            [
                 'attr' => [
                     'class' => 'row g-3 col-3'
                 ]

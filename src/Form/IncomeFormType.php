@@ -17,6 +17,11 @@ class IncomeFormType extends AbstractType
         $builder
             ->add('amount', NumberType::class)
             ->add('income_date', DateTimeType::class, [
+                'input'  => 'datetime', 
+                'widget' => 'single_text',
+                'input_format' => 'yyyy-MM-dd H:i:s'
+            ],
+            [
                 'attr' => [
                     'class' => 'row g-3 col-3'
                 ]

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add expense{% endblock %}
+{% block title %}Добави разход{% endblock %}
 
 {% block body %}
 
@@ -10,10 +10,10 @@
         </div>
     {% endfor %}
 
-    <h2>Expense:</h2>
+    <h2>Добави разход:</h2>
 
     {{ form(expense_form) }}
 
-    <br><a class="btn btn-outline-secondary" href="/expenses">Go back</a><br><br>
+    <br><a class="btn btn-outline-secondary" href="/expenses">Назад</a><br><br>
 
 {% endblock %}

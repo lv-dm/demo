@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add expense{% endblock %}
+{% block title %}Разходи{% endblock %}
 
 {% block body %}
-    <br><a class="btn btn-outline-success" href="/addexpense">Add new expense</a><br><br>
+    <br><a class="btn btn-outline-success" href="/addexpense">Добави разход</a><br><br>
 
     {# do loop first and assign whatever output you want to a variable #}
     {% set sum = 0 %}    
@@ -14,21 +14,21 @@
     {% endset %}
 
     <div class="alert alert-success" role="alert">
-        Total expenses: <b>{{ sum }}</b>
+        Общо разходи: <b>{{ sum }}</b>
     </div>
 
     {{ loopOutput }}
 
-    <h2>List of expenses:</h2>
+    <h2>Разходи:</h2>
 
     <table class="table table-striped">
         <thead>
             <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Date</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Име</th>
+            <th scope="col">Сума</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Действия</th>
             </tr>
         </thead>
         <tbody>
