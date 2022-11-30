@@ -23,6 +23,9 @@ class Expense
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $ExpenseDate = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $repeating = null;
+
     #[ORM\Column(type: Types::TEXT)]
 
     public function getId(): ?int
@@ -62,6 +65,18 @@ class Expense
     public function setExpenseDate(\DateTimeInterface $ExpenseDate): self
     {
         $this->ExpenseDate = $ExpenseDate;
+
+        return $this;
+    }
+
+    public function getRepeating(): ?int
+    {
+        return $this->repeating;
+    }
+
+    public function setRepeating(int $repeating): self
+    {
+        $this->repeating = $repeating;
 
         return $this;
     }

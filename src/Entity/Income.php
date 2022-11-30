@@ -20,6 +20,9 @@ class Income
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $income_date = null;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $repeating = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Income
     public function setIncomeDate(\DateTimeInterface $income_date): self
     {
         $this->income_date = $income_date;
+
+        return $this;
+    }
+
+    public function getRepeating(): ?int
+    {
+        return $this->repeating;
+    }
+
+    public function setRepeating(int $repeating): self
+    {
+        $this->repeating = $repeating;
 
         return $this;
     }

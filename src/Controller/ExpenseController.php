@@ -5,6 +5,7 @@ namespace App\Controller;
 use Twig\Environment;
 use App\Entity\Expense;
 use App\Form\ExpenseFormType;
+use App\Form\ExpenseRepeatingFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ManagerRegistry as PersistenceManagerRegistry;
@@ -48,6 +49,34 @@ class ExpenseController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $expense->setRepeating(0);
+            $entityManager->persist($expense);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'Expense added!'
+            );
+        }
+
+        return new Response($twig->render('expense/show.html.twig', [
+           'expense_form' => $form->createView() 
+        ]));
+
+    }
+
+    #[Route('/addrepeatingexpense', name: 'app_repeatingexpense')]
+    public function createRepeatingExpense(Environment $twig, Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $expense = new Expense();
+
+        $form = $this->createForm(ExpenseRepeatingFormType::class, $expense);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($expense);
             $entityManager->flush();
 
@@ -69,7 +98,7 @@ class ExpenseController extends AbstractController
         $entityManager = $doctrine->getManager();
         $expense = $entityManager->getRepository(Expense::class)->find($id);
 
-        $form = $this->createForm(ExpenseFormType::class, $expense);
+        $form = $this->createForm(ExpenseRepeatingFormType::class, $expense);
 
         $form->handleRequest($request);
 

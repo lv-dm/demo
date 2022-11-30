@@ -3,7 +3,8 @@
 {% block title %}Приходи{% endblock %}
 
 {% block body %}
-    <br><a class="btn btn-outline-success" href="/addincome">Добави приход</a><br><br>
+    <br><a class="btn btn-outline-success" href="/addincome">Добави приход</a>
+    <a class="btn btn-outline-success" href="/addrepeatingincome">Добави повтарящ се приход</a><br><br>
 
     {# do loop first and assign whatever output you want to a variable #}
     {% set sum = 0 %}    
@@ -27,6 +28,7 @@
             <th scope="col">ID</th>
             <th scope="col">Сума</th>
             <th scope="col">Дата</th>
+            <th scope="col">Повтаряне</th>
             <th scope="col">Действия</th>
             </tr>
         </thead>
@@ -36,6 +38,11 @@
                     <td>{{ income.id }}</td>
                     <td>{{ income.amount }}</td>
                     <td>{{ income.incomedate|date('l, F j Y, H:i') }}</td>
+                    {% if income.repeating > 0 %}
+                        <td>{{ income.repeating}} {{ (income.repeating == 1) ? ("месец") : ("месеца") }}</td>
+                    {% else %}
+                        <td>Няма</td>
+                    {% endif %}
                     <td><a href="/income/edit/{{ income.id }}" class="btn btn-outline-warning">Edit</a>
                     <a href="/income/delete/{{ income.id }}" class="btn btn-outline-danger">Delete</a></td>
                 </tr>

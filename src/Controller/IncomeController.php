@@ -5,6 +5,7 @@ namespace App\Controller;
 use Twig\Environment;
 use App\Entity\Income;
 use App\Form\IncomeFormType;
+use App\Form\IncomeRepeatingFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,34 @@ class IncomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $income->setRepeating(0);
+            $entityManager->persist($income);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'Income added!'
+            );
+        }
+
+        return new Response($twig->render('income/show.html.twig', [
+           'income_form' => $form->createView() 
+        ]));
+
+    }
+
+    #[Route('/addrepeatingincome', name: 'app_repeatingincome')]
+    public function createRepeatingIncome(Environment $twig, Request $request, PersistenceManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $income = new Income();
+
+        $form = $this->createForm(IncomeRepeatingFormType::class, $income);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->persist($income);
             $entityManager->flush();
 
@@ -62,7 +91,7 @@ class IncomeController extends AbstractController
         $entityManager = $doctrine->getManager();
         $income = $entityManager->getRepository(Income::class)->find($id);
 
-        $form = $this->createForm(IncomeFormType::class, $income);
+        $form = $this->createForm(IncomeRepeatingFormType::class, $income);
 
         $form->handleRequest($request);
 

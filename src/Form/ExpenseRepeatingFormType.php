@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-class ExpenseFormType extends AbstractType
+class ExpenseRepeatingFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -30,6 +30,15 @@ class ExpenseFormType extends AbstractType
                 ]
             ])
 
+            ->add('repeating', IntegerType::class,
+            [
+                'required' => true,
+                'error_bubbling' => true,
+                'attr' => [
+                  'min' => 0
+                ]
+            ])
+
             ->add('Submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-success float-right'
@@ -41,6 +50,7 @@ class ExpenseFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Expense::class]);
+            'data_class' => Expense::class,
+        ]);
     }
 }
