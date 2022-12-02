@@ -1,0 +1,1 @@
+# Symfony finance manager project
